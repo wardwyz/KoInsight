@@ -6,6 +6,8 @@ const BASE_PATH = __dirname;
 const DATA_PATH = process.env.DATA_PATH || path.resolve(BASE_PATH, '../../../', 'data');
 const BOOKS_PATH = process.env.BOOKS_PATH || path.resolve(BASE_PATH, '../../../', 'books');
 const MAX_FILE_SIZE_MB = Number(process.env.MAX_FILE_SIZE_MB) || 100;
+const AUTH_USERNAME = process.env.KOINSIGHT_AUTH_USERNAME || 'admin';
+const AUTH_PASSWORD = process.env.KOINSIGHT_AUTH_PASSWORD || 'admin';
 
 const UPLOAD_DB_FILENAME = 'statistics.sqlite3';
 
@@ -25,6 +27,11 @@ export const appConfig = {
     filename: UPLOAD_DB_FILENAME,
     path: path.resolve(DATA_PATH, UPLOAD_DB_FILENAME),
     maxFileSizeMegaBytes: MAX_FILE_SIZE_MB,
+  },
+
+  auth: {
+    username: AUTH_USERNAME,
+    password: AUTH_PASSWORD,
   },
 
   db: {

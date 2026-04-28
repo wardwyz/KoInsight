@@ -73,6 +73,8 @@ services:
       - ./books:/app/books
     environment:
       - BOOKS_PATH=/app/books
+      - KOINSIGHT_AUTH_USERNAME=admin
+      - KOINSIGHT_AUTH_PASSWORD=changeme
 ```
 Run `docker compose up -d`.
 
@@ -97,6 +99,8 @@ services:
       - ./books:/app/books
     environment:
       - BOOKS_PATH=/app/books
+      - KOINSIGHT_AUTH_USERNAME=admin
+      - KOINSIGHT_AUTH_PASSWORD=changeme
 ```
 
 如果你在 Apple Silicon（如 Mac M2）上运行，也可使用同一个镜像标签，Docker 会自动拉取 `arm64` 变体。
@@ -114,6 +118,10 @@ KoInsight can be configured using the following environment variables:
   *Default:* `../../../data` or `/app/data` in Docker.
 - `BOOKS_PATH`: Path to the directory where your ebook files are stored for OPDS catalog browsing/download.<br>
   *Default:* `../../../books` or `/app/books` in Docker.
+- `KOINSIGHT_AUTH_USERNAME`: Shared username for web login prompt, OPDS endpoint, and upload endpoints.<br>
+  *Default:* `admin`
+- `KOINSIGHT_AUTH_PASSWORD`: Shared password for web login prompt, OPDS endpoint, and upload endpoints.<br>
+  *Default:* `admin`
 
 # Usage
 
@@ -179,7 +187,7 @@ KoInsight now exposes an OPDS acquisition feed so KOReader (or any OPDS client) 
 
 1. Mount your books folder to the container (for example `./books:/app/books`).
 2. Set `BOOKS_PATH` to the in-container path (`/app/books`).
-3. Open OPDS URL in your reader: `http://<server-ip>:3000/opds`.
+3. Open OPDS URL in your reader: `http://<server-ip>:3000/opds` (enter `KOINSIGHT_AUTH_USERNAME` / `KOINSIGHT_AUTH_PASSWORD` when prompted).
 
 Supported formats: `epub`, `pdf`, `mobi`, `azw3`, `fb2`, `txt`, `cbz`, `cbr`.
 

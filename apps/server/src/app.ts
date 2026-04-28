@@ -4,6 +4,7 @@ import { Server } from 'http';
 import morgan from 'morgan';
 import path from 'path';
 import { openAiRouter } from './ai/open-ai-router';
+import { basicAuthMiddleware } from './auth/basic-auth-middleware';
 import { booksRouter } from './books/books-router';
 import { appConfig } from './config';
 import { devicesRouter } from './devices/devices-router';
@@ -30,14 +31,16 @@ async function setupServer() {
   app.use('/', kosyncRouter); // Needs to be mounted at root to follow KoSync API
   app.use('/api/plugin', kopluginRouter);
   app.use('/api/devices', devicesRouter);
+  app.use('/api/books/upload', basicAuthMiddleware);
   app.use('/api/books', booksRouter);
   app.use('/api/stats', statsRouter);
-  app.use('/api/upload', uploadRouter);
+  app.use('/api/upload', basicAuthMiddleware, uploadRouter);
   app.use('/api/open-library', openLibraryRouter);
   app.use('/api/ai', openAiRouter);
-  app.use('/opds', opdsRouter);
+  app.use('/opds', basicAuthMiddleware, opdsRouter);
 
   // Serve react app
+  app.use(basicAuthMiddleware);
   app.use(express.static(appConfig.webBuildPath));
   app.get(/.*/, (_req: Request, res: Response) => {
     res.sendFile(path.join(appConfig.webBuildPath, 'index.html'));

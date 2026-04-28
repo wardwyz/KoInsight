@@ -10,4 +10,6 @@ services:
       - ./.env:/app/.env
     environment:
       - BOOKS_PATH=/app/books
+      - KOINSIGHT_AUTH_USERNAME=admin
+      - KOINSIGHT_AUTH_PASSWORD=changeme
     restart: unless-stopped

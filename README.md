@@ -20,7 +20,7 @@
   </picture>
 </p>
 
-# Features
+#  Features
 
 - 📈 Interactive dashboard with charts and insights
 - ✏️ Highlights sync

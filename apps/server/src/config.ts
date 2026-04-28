@@ -4,6 +4,7 @@ import path from 'path';
 
 const BASE_PATH = __dirname;
 const DATA_PATH = process.env.DATA_PATH || path.resolve(BASE_PATH, '../../../', 'data');
+const BOOKS_PATH = process.env.BOOKS_PATH || path.resolve(BASE_PATH, '../../../', 'books');
 const MAX_FILE_SIZE_MB = Number(process.env.MAX_FILE_SIZE_MB) || 100;
 
 const UPLOAD_DB_FILENAME = 'statistics.sqlite3';
@@ -16,6 +17,7 @@ export const appConfig = {
   coversPath: path.resolve(DATA_PATH, 'covers'),
 
   dataPath: DATA_PATH,
+  booksPath: BOOKS_PATH,
 
   webBuildPath: path.join(BASE_PATH, '../../web/dist'),
 

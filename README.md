@@ -70,6 +70,9 @@ services:
       - "3000:3000"
     volumes:
       - ./data:/app/data
+      - ./books:/app/books
+    environment:
+      - BOOKS_PATH=/app/books
 ```
 Run `docker compose up -d`.
 
@@ -91,6 +94,9 @@ services:
       - "3000:3000"
     volumes:
       - ./data:/app/data
+      - ./books:/app/books
+    environment:
+      - BOOKS_PATH=/app/books
 ```
 
 如果你在 Apple Silicon（如 Mac M2）上运行，也可使用同一个镜像标签，Docker 会自动拉取 `arm64` 变体。
@@ -106,6 +112,8 @@ KoInsight can be configured using the following environment variables:
   *Default:* `100`
 - `DATA_PATH`: Path to the directory where KoInsight data (such as stats or uploads) will be stored.<br>
   *Default:* `../../../data` or `/app/data` in Docker.
+- `BOOKS_PATH`: Path to the directory where your ebook files are stored for OPDS catalog browsing/download.<br>
+  *Default:* `../../../books` or `/app/books` in Docker.
 
 # Usage
 
@@ -164,6 +172,17 @@ You can use your KoInsight instance as a KOReader sync server. This allows you t
 1. Sync your progress.
 
 The progress sync data should appear in the **"Progress syncs"** page in KoInsight.
+
+## OPDS catalog
+
+KoInsight now exposes an OPDS acquisition feed so KOReader (or any OPDS client) can browse and download your local ebook files.
+
+1. Mount your books folder to the container (for example `./books:/app/books`).
+2. Set `BOOKS_PATH` to the in-container path (`/app/books`).
+3. Open OPDS URL in your reader: `http://<server-ip>:3000/opds`.
+
+Supported formats: `epub`, `pdf`, `mobi`, `azw3`, `fb2`, `txt`, `cbz`, `cbr`.
+
 
 # Development
 See [DEVELOPMENT.md](DEVELOPMENT.md) for development setup and instructions.

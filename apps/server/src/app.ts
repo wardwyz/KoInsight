@@ -11,6 +11,7 @@ import { db } from './knex';
 import { kopluginRouter } from './koplugin/koplugin-router';
 import { kosyncRouter } from './kosync/kosync-router';
 import { openLibraryRouter } from './open-library/open-library-router';
+import { opdsRouter } from './opds/opds-router';
 import { statsRouter } from './stats/stats-router';
 import { uploadRouter } from './upload/upload-router';
 
@@ -34,6 +35,7 @@ async function setupServer() {
   app.use('/api/upload', uploadRouter);
   app.use('/api/open-library', openLibraryRouter);
   app.use('/api/ai', openAiRouter);
+  app.use('/opds', opdsRouter);
 
   // Serve react app
   app.use(express.static(appConfig.webBuildPath));

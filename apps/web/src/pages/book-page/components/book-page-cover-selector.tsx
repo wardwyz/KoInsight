@@ -51,15 +51,15 @@ export function BookPageCoverSelector({
     saveCover(book.id, coverId ?? '')
       .then(() =>
         notifications.show({
-          title: 'Cover saved',
-          message: 'Cover saved successfully.',
+          title: '封面已保存',
+          message: '封面保存成功。',
           position: 'top-center',
         })
       )
       .catch(() =>
         notifications.show({
-          title: 'Error saving cover',
-          message: `Unable to save cover for ${book.title}.`,
+          title: '保存封面失败',
+          message: `无法为《${book.title}》保存封面。`,
           color: 'red',
           position: 'top-center',
         })
@@ -74,7 +74,7 @@ export function BookPageCoverSelector({
     <>
       <Flex gap="sm" direction="row">
         <TextInput
-          placeholder="Search query..."
+          placeholder="搜索关键词..."
           w={300}
           color="violet"
           value={state.query || ''}
@@ -88,7 +88,7 @@ export function BookPageCoverSelector({
           leftSection={<IconSearch size={16} />}
           loading={state.isLoading}
         >
-          Search
+          搜索
         </Button>
       </Flex>
       <Flex mt="lg" gap={16} direction="row" wrap="wrap">
@@ -102,7 +102,7 @@ export function BookPageCoverSelector({
               visible={!state.loadedCovers.includes(coverId) || state.isSavingCovers}
               height={250}
             >
-              <Tooltip position="top" label="Click to save cover" withArrow>
+              <Tooltip position="top" label="点击保存封面" withArrow>
                 <Image
                   src={`https://covers.openlibrary.org/b/id/${coverId}-L.jpg`}
                   h={250}

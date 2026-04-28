@@ -66,7 +66,7 @@ export function BookPageAnnotations({ book }: BookPageAnnotationsProps) {
       if (groupBy === 'type') {
         key = annotation.annotation_type;
       } else if (groupBy === 'chapter') {
-        key = annotation.chapter || 'Unknown chapter';
+        key = annotation.chapter || '未知章节';
       }
 
       if (!groups[key]) {
@@ -82,12 +82,11 @@ export function BookPageAnnotations({ book }: BookPageAnnotationsProps) {
     <Stack gap="lg">
       <Box>
         <Title order={3} mb="xs">
-          Annotations ({filteredAndSortedAnnotations.length} of {book.annotations.length})
+          标注（{filteredAndSortedAnnotations.length}/{book.annotations.length}）
         </Title>
         <Text size="sm" c="dimmed">
-          {book.highlights_count} highlights · {book.notes_count} notes · {book.bookmarks_count}{' '}
-          bookmarks
-          {book.deleted_count > 0 && ` · ${book.deleted_count} deleted`}
+          {book.highlights_count} 条高亮 · {book.notes_count} 条笔记 · {book.bookmarks_count} 个书签
+          {book.deleted_count > 0 && ` · ${book.deleted_count} 条已删除`}
         </Text>
       </Box>
 
@@ -97,7 +96,7 @@ export function BookPageAnnotations({ book }: BookPageAnnotationsProps) {
 
       {filteredAndSortedAnnotations.length === 0 ? (
         <Text c="dimmed" ta="center" py="xl">
-          No annotations found with the current filters.
+          当前筛选条件下没有标注。
         </Text>
       ) : groupBy === 'none' ? (
         <AnnotationsList annotations={filteredAndSortedAnnotations} />

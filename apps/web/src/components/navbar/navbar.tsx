@@ -35,11 +35,11 @@ export function Navbar({ onNavigate }: { onNavigate?: () => void }): JSX.Element
   const [downloadOpened, { close: closeDownload, open: openDownload }] = useDisclosure(false);
 
   const tabs = [
-    { link: RoutePath.BOOKS, label: 'Books', icon: IconBooks },
-    { link: RoutePath.CALENDAR, label: 'Calendar', icon: IconCalendar },
-    { link: RoutePath.STATS, label: 'Reading stats', icon: IconChartBar },
-    { link: RoutePath.SYNCS, label: 'Progress syncs', icon: IconReload },
-    { onClick: openDownload, label: 'KOReader Plugin', icon: IconDownload },
+    { link: RoutePath.BOOKS, label: '书籍', icon: IconBooks },
+    { link: RoutePath.CALENDAR, label: '日历', icon: IconCalendar },
+    { link: RoutePath.STATS, label: '阅读统计', icon: IconChartBar },
+    { link: RoutePath.SYNCS, label: '进度同步', icon: IconReload },
+    { onClick: openDownload, label: 'KOReader 插件', icon: IconDownload },
   ];
 
   const [active, setActive] = useState(
@@ -88,7 +88,7 @@ export function Navbar({ onNavigate }: { onNavigate?: () => void }): JSX.Element
             onClick={toggleColorScheme}
             variant="default"
             size="lg"
-            aria-label="Toggle color scheme"
+            aria-label="切换主题"
           >
             {computedColorScheme === 'dark' ? (
               <IconSun stroke={1.5} color="yellow" />

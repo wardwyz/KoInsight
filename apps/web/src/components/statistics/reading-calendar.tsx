@@ -24,7 +24,7 @@ export function ReadingCalendar(): JSX.Element {
         percent: Math.floor((time / maxTime) * 100),
         tooltip: (
           <>
-            {formatSecondsToHumanReadable(time)} read on{' '}
+            阅读 {formatSecondsToHumanReadable(time)} · {' '}
             {formatDate(new Date(Number(day)), 'dd MMM yyyy')}
           </>
         ),

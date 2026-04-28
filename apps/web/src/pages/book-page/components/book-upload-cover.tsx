@@ -20,12 +20,12 @@ export function BookUploadCover({ book, showTitle = true, onChange }: BookUpload
     await mutate('books');
     await mutate(`books/${book.id}`);
     notifications.show({
-      title: 'Success',
-      message: 'File uploaded and validated successfully.',
+      title: '上传成功',
+      message: '文件上传并校验成功。',
       position: 'top-center',
       color: 'green',
     });
-    setMessage('Cover updated');
+    setMessage('封面已更新');
     onChange?.();
     close();
   };
@@ -45,7 +45,7 @@ export function BookUploadCover({ book, showTitle = true, onChange }: BookUpload
       if (response.ok) {
         await onSuccess();
       } else {
-        setMessage('Failed to upload file.');
+        setMessage('文件上传失败。');
       }
     } catch (error) {
       setMessage(`Error: ${error}`);
@@ -56,7 +56,7 @@ export function BookUploadCover({ book, showTitle = true, onChange }: BookUpload
     <div>
       {showTitle && (
         <Title order={3} mb="md">
-          Upload cover
+          上传封面
         </Title>
       )}
       <form onSubmit={handleUpload} encType="multipart/form-data">
@@ -68,7 +68,7 @@ export function BookUploadCover({ book, showTitle = true, onChange }: BookUpload
             accept=".png,.jpg,.jpeg,.gif"
           />
           <Button type="submit" color="violet" disabled={file === null}>
-            Upload
+            上传
           </Button>
         </Flex>
         {message && <p>{message}</p>}

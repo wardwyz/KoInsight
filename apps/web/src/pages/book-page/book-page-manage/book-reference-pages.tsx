@@ -18,14 +18,14 @@ export function BookReferencePages({ book }: BookReferencePagesProps) {
       setUpdateLoading(true);
       await updateBookReferencePages(book.id, referencePages);
       notifications.show({
-        title: 'Reference page count updated',
-        message: `${book ? `"${book?.title}"` : 'Book'} reference page count updated successfully.`,
+        title: '参考页数已更新',
+        message: `${book ? `"${book?.title}"` : '书籍'} 的参考页数更新成功。`,
         color: 'green',
         position: 'top-center',
       });
     } catch (error) {
       notifications.show({
-        title: 'Failed to update reference page count',
+        title: '更新参考页数失败',
         message: '',
         color: 'red',
         position: 'top-center',
@@ -38,17 +38,15 @@ export function BookReferencePages({ book }: BookReferencePagesProps) {
   return (
     <div>
       <Title order={3} mb="md">
-        Reference page count
+        参考页数
       </Title>
       <Text size="sm" mb="md" maw="80%" lh="xl">
-        KOReader tracks your reading progress based on <em>pages in the app</em>, which can vary
-        depending on settings like font size, margins, and layout. For example, a 100-page book
-        might show up as 150 pages in KOReader if you increase the font size.
+        KOReader 基于<em>应用内分页</em>记录阅读进度，这会受到字体大小、边距和排版等设置影响。
+        例如一本 100 页的书，在字体变大后可能会显示为 150 页。
         <br />
         <br />
-        To get accurate reading stats, you can set the <strong>reference page</strong> count — the
-        actual number of pages in the physical or original version of the book. KoInsight will then
-        adjust your stats to match that real-world page count.
+        为了获得更准确的统计，你可以设置<strong>参考页数</strong>（纸书或原版的真实页数）。
+        KoInsight 会按这个页数换算阅读统计。
       </Text>
       <Flex gap="md">
         <NumberInput
@@ -57,7 +55,7 @@ export function BookReferencePages({ book }: BookReferencePagesProps) {
           onChange={(e) => setReferencePages(Number(e))}
         />
         <Button variant="subtle" loading={updateLoading} onClick={onUpdateReferencePages}>
-          Update reference pages
+          更新参考页数
         </Button>
       </Flex>
     </div>

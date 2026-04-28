@@ -77,7 +77,7 @@ export function App(): JSX.Element {
                 path="*"
                 element={
                   <Stack align="center" justify="center" style={{ height: '100%' }}>
-                    <IconError404 size={144} /> Page not found 😢
+                    <IconError404 size={144} /> 页面不存在 😢
                   </Stack>
                 }
               />
@@ -85,7 +85,7 @@ export function App(): JSX.Element {
           </main>
         </div>
         <Text size="xs" ta="center" c="dimmed">
-          Made with <IconHeart size={10} /> by{' '}
+          由 <IconHeart size={10} /> {' '}
           <Anchor href="https://gar.dev" target="_blank">
             gar.dev
           </Anchor>

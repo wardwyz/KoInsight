@@ -28,16 +28,16 @@ export function SyncsPage() {
   const findBook = useCallback((md5: string) => books.find((book) => book.md5 === md5), [books]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>加载中...</div>;
   }
 
   return (
     <div>
-      <Title mb="sm">Progress syncs</Title>
+      <Title mb="sm">进度同步</Title>
       {progresses.length === 0 ? (
         <EmptyState
-          title="No progress syncs"
-          description="It seems like no one has synced their progress yet."
+          title="暂无同步进度"
+          description="目前还没有人同步阅读进度。"
         />
       ) : (
         <>
@@ -46,7 +46,7 @@ export function SyncsPage() {
               <Tooltip
                 position="top-start"
                 withArrow
-                label={`Device ID: ${progresses?.[0].device_id}`}
+                label={`设备 ID: ${progresses?.[0].device_id}`}
               >
                 <Title order={3} mb="sm" mt="xl">
                   <Flex align="center" gap={4}>
@@ -60,13 +60,13 @@ export function SyncsPage() {
                   <Card padding="lg" radius="md" withBorder>
                     <Flex direction="column" key={progress.id} gap="xs">
                       <Flex gap="xs" align="center">
-                        <Tooltip withArrow label="Username">
+                        <Tooltip withArrow label="用户名">
                           <IconUser size={18} />
                         </Tooltip>
                         <strong>{progress.username}</strong>
                       </Flex>
                       <Flex gap="xs" align="center">
-                        <Tooltip withArrow label="Document">
+                        <Tooltip withArrow label="文档">
                           <IconNote size={18} />
                         </Tooltip>
                         {findBook(progress.document) ? (
@@ -79,7 +79,7 @@ export function SyncsPage() {
                             >
                               {findBook(progress.document)!.title}
                             </Anchor>
-                            <Tooltip withArrow label={`MD5: ${progress.document}`} position="top">
+                            <Tooltip withArrow label={`MD5：${progress.document}`} position="top">
                               <IconCode size={18} />
                             </Tooltip>
                           </>
@@ -90,13 +90,13 @@ export function SyncsPage() {
                         )}
                       </Flex>
                       <Flex gap="xs" align="center">
-                        <Tooltip withArrow label="Progress">
+                        <Tooltip withArrow label="进度">
                           <IconProgress size={18} />
                         </Tooltip>
                         <Code>{progress.progress}</Code>
                       </Flex>
                       <Flex gap="xs" align="center">
-                        <Tooltip withArrow label="Percentage">
+                        <Tooltip withArrow label="百分比">
                           <IconPercentage size={18} />
                         </Tooltip>
                         <Progress w="100" value={(progress.percentage * 100).toFixed(2)} />{' '}

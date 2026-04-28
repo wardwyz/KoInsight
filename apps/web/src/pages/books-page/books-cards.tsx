@@ -39,7 +39,7 @@ export function BooksCards({ books }: BooksCardsProps): JSX.Element {
           onClick={() => navigate(getBookPath(book.id))}
         >
           {book.soft_deleted ? (
-            <Tooltip label="This book is hidden" withArrow>
+            <Tooltip label="此书已隐藏" withArrow>
               <IconEyeClosed size={16} className={style.BookHiddenIndicator} />
             </Tooltip>
           ) : null}
@@ -62,15 +62,15 @@ export function BooksCards({ books }: BooksCardsProps): JSX.Element {
               {book.title}
             </Text>
             <Group wrap="nowrap" gap={8} mt="xs">
-              <Tooltip label="Author" position="top" withArrow>
+              <Tooltip label="作者" position="top" withArrow>
                 <IconUser stroke={1.5} size={16} />
               </Tooltip>
-              <span className={style.Attribute}>{book.authors ?? 'N/A'}</span>
+              <span className={style.Attribute}>{book.authors ?? '无'}</span>
             </Group>
             {!isSmallScreen && (
               <>
                 <Group wrap="nowrap" gap={8}>
-                  <Tooltip label="Series" position="top" withArrow>
+                  <Tooltip label="系列" position="top" withArrow>
                     <IconBooks stroke={1.5} size={16} />
                   </Tooltip>
                   <span className={style.Attribute}>{book.series}</span>
@@ -78,23 +78,23 @@ export function BooksCards({ books }: BooksCardsProps): JSX.Element {
                 {book.annotations.length > 0 && (
                   <Group wrap="nowrap" gap={8}>
                     <Tooltip
-                      label={`${book.annotations.length} imported annotations`}
+                      label={`已导入 ${book.annotations.length} 条标注`}
                       position="top"
                       withArrow
                     >
                       <IconHighlight stroke={1.5} size={16} />
                     </Tooltip>
-                    <span className={style.Attribute}>{book.annotations.length} annotations</span>
+                    <span className={style.Attribute}>{book.annotations.length} 条标注</span>
                   </Group>
                 )}
                 <Group wrap="nowrap" gap={8}>
-                  <Tooltip label="Pages read" position="top" withArrow>
+                  <Tooltip label="已读页数" position="top" withArrow>
                     <IconProgress stroke={1.5} size={16} />
                   </Tooltip>
                   <span className={style.Attribute}>
                     {book.unique_read_pages}
                     &nbsp;/&nbsp;
-                    {book.total_pages} pages read
+                    {book.total_pages} 页
                   </span>
                 </Group>
               </>

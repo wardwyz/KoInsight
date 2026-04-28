@@ -20,6 +20,7 @@ import { NavLink, useLocation } from 'react-router';
 import { RoutePath } from '../../routes';
 import { Logo } from '../logo/logo';
 import { DownloadPluginModal } from './download-plugin';
+import { BookUploadForm } from './book-upload-form';
 import { UploadForm } from './upload-form';
 
 import style from './navbar.module.css';
@@ -84,6 +85,7 @@ export function Navbar({ onNavigate }: { onNavigate?: () => void }): JSX.Element
       <div className={style.Footer}>
         <Flex gap="xs">
           <UploadForm />
+          <BookUploadForm />
           <ActionIcon
             onClick={toggleColorScheme}
             variant="default"

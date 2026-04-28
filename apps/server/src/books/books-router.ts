@@ -1,12 +1,54 @@
 import { NextFunction, Request, Response, Router } from 'express';
+import { existsSync, mkdirSync } from 'fs';
+import path from 'path';
+import multer from 'multer';
+import { appConfig } from '../config';
 import { BooksRepository } from './books-repository';
 import { BooksService } from './books-service';
 import { coversRouter } from './covers/covers-router';
 import { getBookById } from './get-book-by-id-middleware';
 
 const router = Router();
+const allowedBookExtensions = new Set(['.epub', '.pdf', '.txt']);
+
+const bookUploadStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => {
+    if (!existsSync(appConfig.booksPath)) {
+      mkdirSync(appConfig.booksPath, { recursive: true });
+    }
+    cb(null, appConfig.booksPath);
+  },
+  filename: (_req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const bookUpload = multer({
+  storage: bookUploadStorage,
+  fileFilter: (_req, file, cb) => {
+    const extension = path.extname(file.originalname).toLowerCase();
+    if (allowedBookExtensions.has(extension)) {
+      cb(null, true);
+      return;
+    }
+    cb(new Error('Only .epub, .pdf, and .txt files are allowed'));
+  },
+  limits: { fileSize: appConfig.upload.maxFileSizeMegaBytes * 1024 * 1024 },
+});
 
 router.use('/:bookId/cover', coversRouter);
+
+router.post('/upload', bookUpload.single('file'), async (req: Request, res: Response) => {
+  if (!req.file) {
+    res.status(400).json({ error: 'No file uploaded' });
+    return;
+  }
+
+  res.status(200).json({
+    message: 'Book uploaded successfully',
+    file: req.file.filename,
+  });
+});
 
 /**
  * Get all books with attached entity data
@@ -100,6 +142,21 @@ router.put('/:bookId/reference_pages', getBookById, async (req: Request, res: Re
     console.error(error);
     res.status(500).json({ error: 'Failed to update reference pages' });
   }
+});
+
+router.use((err: any, _req: Request, res: Response, next: NextFunction) => {
+  if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
+    const maxMb = Math.round(appConfig.upload.maxFileSizeMegaBytes);
+    res.status(413).json({ error: `File too large. Maximum file size allowed is ${maxMb} MB.` });
+    return;
+  }
+
+  if (err?.message === 'Only .epub, .pdf, and .txt files are allowed') {
+    res.status(400).json({ error: err.message });
+    return;
+  }
+
+  next(err);
 });
 
 export { router as booksRouter };

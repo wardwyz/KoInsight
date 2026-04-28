@@ -1,5 +1,8 @@
 import express from 'express';
+import { existsSync, rmSync } from 'fs';
+import path from 'path';
 import request from 'supertest';
+import { appConfig } from '../config';
 import { createBook } from '../db/factories/book-factory';
 import { db } from '../knex';
 import { booksRouter } from './books-router';
@@ -8,6 +11,16 @@ describe('books-router', () => {
   const app = express();
   app.use(express.json());
   app.use('/books', booksRouter);
+
+  afterEach(() => {
+    const testUploadFiles = ['test-upload.epub', 'test-upload.pdf', 'test-upload.docx'];
+    for (const fileName of testUploadFiles) {
+      const filePath = path.join(appConfig.booksPath, fileName);
+      if (existsSync(filePath)) {
+        rmSync(filePath);
+      }
+    }
+  });
 
   describe('GET /books', () => {
     it('returns all books as JSON', async () => {
@@ -129,6 +142,29 @@ describe('books-router', () => {
       const response = await request(app).put(`/books/${book.id}/reference_pages`).send({});
       expect(response.status).toBe(400);
       expect(response.body).toEqual({ error: 'Missing required fields' });
+    });
+  });
+
+  describe('POST /books/upload', () => {
+    it('uploads an epub book file', async () => {
+      const response = await request(app)
+        .post('/books/upload')
+        .attach('file', Buffer.from('epub-content'), 'test-upload.epub');
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({
+        message: 'Book uploaded successfully',
+        file: 'test-upload.epub',
+      });
+    });
+
+    it('rejects unsupported file extensions', async () => {
+      const response = await request(app)
+        .post('/books/upload')
+        .attach('file', Buffer.from('content'), 'test-upload.docx');
+
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ error: 'Only .epub, .pdf, and .txt files are allowed' });
     });
   });
 });

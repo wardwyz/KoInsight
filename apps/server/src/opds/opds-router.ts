@@ -17,6 +17,17 @@ const SUPPORTED_EXTENSIONS = new Set([
   '.cbr',
 ]);
 
+const MIME_TYPE_BY_EXTENSION: Record<string, string> = {
+  '.epub': 'application/epub+zip',
+  '.pdf': 'application/pdf',
+  '.mobi': 'application/x-mobipocket-ebook',
+  '.azw3': 'application/vnd.amazon.ebook',
+  '.fb2': 'application/fb2+xml',
+  '.txt': 'text/plain',
+  '.cbz': 'application/vnd.comicbook+zip',
+  '.cbr': 'application/vnd.comicbook-rar',
+};
+
 type BookFile = {
   relativePath: string;
   absolutePath: string;
@@ -43,6 +54,10 @@ function encodeRelativePath(relativePath: string) {
 
 function decodeRelativePath(encodedPath: string) {
   return Buffer.from(encodedPath, 'base64url').toString('utf8');
+}
+
+function getMimeTypeByExtension(extension: string) {
+  return MIME_TYPE_BY_EXTENSION[extension] ?? 'application/octet-stream';
 }
 
 async function collectBookFiles(rootPath: string): Promise<BookFile[]> {
@@ -104,6 +119,7 @@ router.get('/', async (req, res) => {
       const id = createHash('sha1').update(book.relativePath).digest('hex');
       const encodedPath = encodeRelativePath(book.relativePath);
       const downloadUrl = `${baseUrl}/opds/books/${encodedPath}`;
+      const mimeType = getMimeTypeByExtension(book.extension);
 
       return `
   <entry>
@@ -112,7 +128,7 @@ router.get('/', async (req, res) => {
     <updated>${updated}</updated>
     <link rel="http://opds-spec.org/acquisition"
       href="${escapeXml(downloadUrl)}"
-      type="application/octet-stream"/>
+      type="${mimeType}"/>
   </entry>`;
     })
     .join('');
@@ -151,7 +167,13 @@ router.get('/books/:encodedPath', async (req, res) => {
     await access(absolutePath);
 
     res.type(path.extname(absolutePath));
-    res.download(absolutePath);
+    const extension = path.extname(absolutePath).toLowerCase();
+    const filename = path.basename(absolutePath);
+    res.download(absolutePath, filename, {
+      headers: {
+        'Content-Type': getMimeTypeByExtension(extension),
+      },
+    });
   } catch {
     res.status(404).json({ error: 'Book file not found' });
   }

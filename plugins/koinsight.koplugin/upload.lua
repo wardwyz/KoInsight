@@ -46,7 +46,7 @@ function send_device_data(server_url, silent)
   local ok, response = callApi("POST", url, get_headers(body), body)
 
   if ok ~= true and not silent then
-    render_response_message(response, "Error:", "Unable to register device.")
+    render_response_message(response, "错误：", "无法注册设备。")
   end
 end
 
@@ -78,9 +78,9 @@ function send_statistics_data(server_url, silent)
 
   if not silent then
     if ok then
-      render_response_message(response, "Success:", "Data uploaded.")
+      render_response_message(response, "成功：", "数据上传成功。")
     else
-      render_response_message(response, "Error:", "Data upload failed.")
+      render_response_message(response, "错误：", "数据上传失败。")
     end
   end
 end
@@ -235,7 +235,7 @@ function KoInsightUpload.syncCurrentBook(server_url, silent)
   end
   if server_url == nil or server_url == "" then
     UIManager:show(InfoMessage:new({
-      text = _("Please configure the server URL first."),
+      text = _("请先配置服务器 URL。"),
     }))
     return
   end
@@ -248,7 +248,7 @@ end
 function KoInsightUpload.syncAllBooks(server_url, progress_callback)
   if server_url == nil or server_url == "" then
     UIManager:show(InfoMessage:new({
-      text = _("Please configure the server URL first."),
+      text = _("请先配置服务器 URL。"),
     }))
     return
   end

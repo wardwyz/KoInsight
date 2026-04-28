@@ -11,7 +11,7 @@ local _ = require("gettext")
 function response_not_valid(content)
   logger.err("[KoInsight] callApi: response was not valid JSON", content)
   UIManager:show(InfoMessage:new({
-    text = _("Server response is not valid."),
+    text = _("服务器响应无效。"),
   }))
 end
 
@@ -65,7 +65,7 @@ return function(method, url, headers, body, filepath, quiet)
     if not quiet then
       logger.err("[KoInsight] callApi: HTTP error", status or code, resp_headers, result)
       UIManager:show(InfoMessage:new({
-        text = _("Server error" .. (result and ": " .. result["error"] or "")),
+        text = _("服务器错误" .. (result and "：" .. result["error"] or "")),
       }))
     end
 

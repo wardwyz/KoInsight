@@ -28,7 +28,7 @@ function koinsight:addToMainMenu(menu_items)
     sub_item_table = {
       -- 1) Synchronize data (all books)
       {
-        text = _("Synchronize data"),
+        text = _("同步数据"),
         callback = function()
           self:performFullSync()
         end,
@@ -37,7 +37,7 @@ function koinsight:addToMainMenu(menu_items)
 
       -- 2) Sync on suspend
       {
-        text = _("Sync on suspend"),
+        text = _("休眠时同步"),
         checked_func = function()
           return self.koinsight_settings:getSyncOnSuspendEnabled()
         end,
@@ -48,7 +48,7 @@ function koinsight:addToMainMenu(menu_items)
 
       -- 3) Aggressive sync on suspend (auto Wi-Fi)
       {
-        text = _("Aggressive sync on suspend (auto Wi-Fi)"),
+        text = _("休眠时强力同步（自动 Wi-Fi）"),
         checked_func = function()
           return self.koinsight_settings:getAggressiveSuspendEnabled()
         end,
@@ -62,7 +62,7 @@ function koinsight:addToMainMenu(menu_items)
 
       -- 4) Set suspend connect timeout
       {
-        text = _("Set suspend connect timeout…"),
+        text = _("设置休眠连接超时…"),
         keep_menu_open = true,
         enabled_func = function()
           return self.koinsight_settings:getSyncOnSuspendEnabled()
@@ -74,7 +74,7 @@ function koinsight:addToMainMenu(menu_items)
 
       -- 5) Set server URL
       {
-        text = _("Set server URL"),
+        text = _("设置服务器 URL"),
         keep_menu_open = true,
         separator = true, -- separator line *after* this item (before "About")
         callback = function()
@@ -84,14 +84,14 @@ function koinsight:addToMainMenu(menu_items)
 
       -- 6) About KoInsight
       {
-        text = _("About KoInsight"),
+        text = _("关于 KoInsight"),
         keep_menu_open = true,
         callback = function()
           local const = require("./const")
           UIManager:show(InfoMessage:new({
-            text = "KoInsight is a sync plugin for KoInsight instances.\n\nPlugin version: "
+            text = "KoInsight 是用于 KoInsight 实例的同步插件。\n\n插件版本："
               .. const.VERSION
-              .. "\n\nSee https://github.com/GeorgeSG/koinsight.",
+              .. "\n\n项目地址：https://github.com/GeorgeSG/koinsight。",
           }))
         end,
       },
@@ -104,7 +104,7 @@ function koinsight:onDispatcherRegisterActions()
   Dispatcher:registerAction("koinsight_sync", {
     category = "none",
     event = "KoInsightSync",
-    title = _("KoInsight: Sync all books"),
+    title = _("KoInsight：同步所有书籍"),
     general = true,
   })
 end
@@ -118,14 +118,14 @@ function koinsight:performFullSync()
   local url = self.koinsight_settings:getServerURL()
   if not url or url == "" then
     UIManager:show(
-      InfoMessage:new({ text = _("KoInsight server URL is not configured."), timeout = 3 })
+      InfoMessage:new({ text = _("尚未配置 KoInsight 服务器 URL。"), timeout = 3 })
     )
     return
   end
 
   -- Show initial message
   local progress_info = InfoMessage:new({
-    text = _("Starting sync..\nScanning reading history for books with annotations."),
+    text = _("开始同步..\n正在扫描阅读历史中的批注书籍。"),
   })
   UIManager:show(progress_info)
 
@@ -139,7 +139,7 @@ function koinsight:performFullSync()
           UIManager:close(progress_info)
           progress_info = InfoMessage:new({
             text = string.format(
-              _("Syncing: %d/%d books\n%d annotations for current book"),
+              _("同步中：%d/%d 本书\n当前书籍有 %d 条批注"),
               progress.current,
               progress.total,
               progress.annotation_count
@@ -150,13 +150,13 @@ function koinsight:performFullSync()
           UIManager:close(progress_info)
           if progress.total == 0 then
             UIManager:show(InfoMessage:new({
-              text = _("No books with annotations found in reading history."),
+              text = _("阅读历史中未找到带批注的书籍。"),
               timeout = 3,
             }))
           else
             UIManager:show(InfoMessage:new({
               text = string.format(
-                _("Sync complete!\n%d/%d books synced successfully\n%d failed"),
+                _("同步完成！\n成功同步 %d/%d 本书\n失败 %d 本"),
                 progress.success,
                 progress.total,
                 progress.failed
@@ -171,7 +171,7 @@ function koinsight:performFullSync()
     if not ok then
       UIManager:close(progress_info)
       logger.err("[KoInsight] Full sync failed: " .. tostring(err))
-      UIManager:show(InfoMessage:new({ text = _("Sync failed: " .. tostring(err)), timeout = 5 }))
+      UIManager:show(InfoMessage:new({ text = _("同步失败：" .. tostring(err)), timeout = 5 }))
     end
   end)
 end

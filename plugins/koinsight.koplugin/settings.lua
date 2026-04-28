@@ -120,11 +120,11 @@ function KoInsightSettings:toggleSyncOnSuspend()
   local success = self:setSyncOnSuspendEnabled(new_value)
 
   if success then
-    local message = new_value and _("Sync on suspend enabled") or _("Sync on suspend disabled")
+    local message = new_value and _("已启用休眠时同步") or _("已禁用休眠时同步")
     UIManager:show(InfoMessage:new({ text = message, timeout = 2 }))
     logger.info("[KoInsight] Sync on suspend toggled from", current, "to", new_value)
   else
-    UIManager:show(InfoMessage:new({ text = _("Error toggling sync setting"), timeout = 3 }))
+    UIManager:show(InfoMessage:new({ text = _("切换同步设置时出错"), timeout = 3 }))
     logger.err("[KoInsight] Failed to toggle sync_on_suspend")
   end
 
@@ -151,13 +151,13 @@ function KoInsightSettings:toggleAggressiveSuspend()
   local success = self:setAggressiveSuspendEnabled(new_value)
 
   if success then
-    local message = new_value and _("Aggressive suspend sync enabled")
-      or _("Aggressive suspend sync disabled")
+    local message = new_value and _("已启用休眠时强力同步")
+      or _("已禁用休眠时强力同步")
     UIManager:show(InfoMessage:new({ text = message, timeout = 2 }))
     logger.info("[KoInsight] Aggressive suspend sync toggled from", current, "to", new_value)
   else
     UIManager:show(
-      InfoMessage:new({ text = _("Error toggling aggressive sync setting"), timeout = 3 })
+      InfoMessage:new({ text = _("切换强力同步设置时出错"), timeout = 3 })
     )
     logger.err("[KoInsight] Failed to toggle aggressive_suspend_sync")
   end
@@ -190,38 +190,38 @@ end
 
 function KoInsightSettings:editServerSettings()
   self.settings_dialog = MultiInputDialog:new({
-    title = _("KoInsight settings"),
+    title = _("KoInsight 设置"),
     fields = {
       {
         text = self.data.server_url,
-        description = _("Server URL:"),
-        hint = _("http://example.com:port"),
+        description = _("服务器 URL："),
+        hint = _("http://example.com:端口"),
       },
     },
     buttons = {
       {
         {
-          text = _("Cancel"),
+          text = _("取消"),
           id = "close",
           callback = function()
             UIManager:close(self.settings_dialog)
           end,
         },
         {
-          text = _("Info"),
+          text = _("说明"),
           callback = function()
             UIManager:show(InfoMessage:new({
-              text = _("Enter the location of your KoInsight server"),
+              text = _("请输入你的 KoInsight 服务器地址"),
             }))
           end,
         },
         {
-          text = _("Apply"),
+          text = _("应用"),
           callback = function()
             local myfields = self.settings_dialog:getFields()
             self:setServerURL(myfields[1])
             UIManager:close(self.settings_dialog)
-            UIManager:show(InfoMessage:new({ text = _("KoInsight settings saved."), timeout = 2 }))
+            UIManager:show(InfoMessage:new({ text = _("KoInsight 设置已保存。"), timeout = 2 }))
           end,
         },
       },
@@ -235,11 +235,11 @@ end
 function KoInsightSettings:editTimeoutDialog()
   local current = tostring(self:getSuspendConnectTimeout())
   self.timeout_dialog = MultiInputDialog:new({
-    title = _("Suspend connect timeout (seconds)"),
+    title = _("休眠连接超时（秒）"),
     fields = {
       {
         text = current,
-        description = _("Timeout (3..60):"),
+        description = _("超时（3..60）："),
         hint = _("10"),
         input_type = "number",
       },
@@ -247,19 +247,19 @@ function KoInsightSettings:editTimeoutDialog()
     buttons = {
       {
         {
-          text = _("Cancel"),
+          text = _("取消"),
           id = "close",
           callback = function()
             UIManager:close(self.timeout_dialog)
           end,
         },
         {
-          text = _("Apply"),
+          text = _("应用"),
           callback = function()
             local fields = self.timeout_dialog:getFields()
             self:setSuspendConnectTimeout(fields[1])
             UIManager:close(self.timeout_dialog)
-            UIManager:show(InfoMessage:new({ text = _("Timeout saved."), timeout = 2 }))
+            UIManager:show(InfoMessage:new({ text = _("超时设置已保存。"), timeout = 2 }))
           end,
         },
       },

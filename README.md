@@ -78,7 +78,7 @@ Run `docker compose up -d`.
 
 - 镜像地址：`ghcr.io/<你的 GitHub 用户名或组织>/koinsight`
 - 默认分支会更新 `latest` 标签
-- 为了兼容群晖 **DS220+**（x86_64），发布平台固定为 `linux/amd64`
+- 已发布多架构镜像：`linux/amd64`（群晖 **DS220+**）和 `linux/arm64`（Apple Silicon / **Mac M2**）
 
 群晖 Docker / Container Manager 建议直接使用：
 
@@ -92,6 +92,8 @@ services:
     volumes:
       - ./data:/app/data
 ```
+
+如果你在 Apple Silicon（如 Mac M2）上运行，也可使用同一个镜像标签，Docker 会自动拉取 `arm64` 变体。
 
 # Configuration
 KoInsight can be configured using the following environment variables:

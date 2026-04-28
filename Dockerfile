@@ -20,7 +20,7 @@ RUN npm run build
 FROM node:22-alpine AS runner
 
 WORKDIR /app
-RUN mkdir -p /app/data
+RUN mkdir -p /app/data /app/books
 
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/apps/server/dist /app/apps/server/dist
@@ -29,6 +29,7 @@ COPY plugins ./plugins
 
 ENV NODE_ENV="production"
 ENV DATA_PATH="/app/data"
+ENV BOOKS_PATH="/app/books"
 ENV MAX_FILE_SIZE_MB="100"
 
 CMD ["node", "./apps/server/dist/app.js"]

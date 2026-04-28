@@ -20,13 +20,13 @@ export function BooksTable({ books }: BooksTableProps): JSX.Element {
     <Table>
       <Table.Thead>
         <Table.Tr>
-          <Table.Th>Title</Table.Th>
+          <Table.Th>书名</Table.Th>
           <Table.Th style={{ width: '200px' }} visibleFrom="md">
-            Read
+            已读
           </Table.Th>
-          <Table.Th visibleFrom="md">Pages</Table.Th>
-          <Table.Th visibleFrom="md">Total read time</Table.Th>
-          <Table.Th visibleFrom="md">Last open</Table.Th>
+          <Table.Th visibleFrom="md">页数</Table.Th>
+          <Table.Th visibleFrom="md">总阅读时长</Table.Th>
+          <Table.Th visibleFrom="md">最近打开</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
@@ -40,7 +40,7 @@ export function BooksTable({ books }: BooksTableProps): JSX.Element {
                   className={style.BookCoverLink}
                 >
                   {book.soft_deleted ? (
-                    <Tooltip label="This book is hidden" withArrow>
+                    <Tooltip label="此书已隐藏" withArrow>
                       <IconEyeClosed size={13} className={style.BookHiddenIndicator} />
                     </Tooltip>
                   ) : null}
@@ -60,11 +60,11 @@ export function BooksTable({ books }: BooksTableProps): JSX.Element {
                     {book.title}
                   </Anchor>
                   <span className={style.SubTitle}>
-                    {book.authors ?? 'Unknown author'}
+                    {book.authors ?? '未知作者'}
                     {book.series !== 'N/A' ? ` · ${book.series}` : ''}
                   </span>
                   {book.annotations.length > 0 && (
-                    <Tooltip label={`${book.annotations.length} imported annotations`} withArrow>
+                    <Tooltip label={`已导入 ${book.annotations.length} 条标注`} withArrow>
                       <Flex align="center">
                         <IconHighlight size={13} />
                         &nbsp;{book.annotations.length}
@@ -78,13 +78,13 @@ export function BooksTable({ books }: BooksTableProps): JSX.Element {
               {book.unique_read_pages}
               <Progress
                 value={(book.unique_read_pages / book.total_pages) * 100}
-                aria-label="Percentage read"
+                aria-label="阅读进度百分比"
                 aria-valuetext={String((book.unique_read_pages / book.total_pages) * 100)}
               />
             </Table.Td>
             <Table.Td visibleFrom="md">{book.total_pages}</Table.Td>
             <Table.Td visibleFrom="md">
-              {book.total_read_time ? shortDuration(getDuration(book.total_read_time)) : 'N/A'}
+              {book.total_read_time ? shortDuration(getDuration(book.total_read_time)) : '无'}
             </Table.Td>
             <Table.Td visibleFrom="md">{formatRelativeDate(book.last_open * 1000)}</Table.Td>
           </Table.Tr>

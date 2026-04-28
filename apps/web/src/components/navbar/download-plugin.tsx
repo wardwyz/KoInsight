@@ -7,7 +7,7 @@ export type DownloadPluginModalProps = Pick<ModalProps, 'opened' | 'onClose'>;
 export function DownloadPluginModal({ opened, onClose }: DownloadPluginModalProps): JSX.Element {
   return (
     <Modal
-      title="Download KOReader Plugin"
+      title="下载 KOReader 插件"
       styles={{
         title: {
           fontSize: 'var(--mantine-font-size-xl)',
@@ -27,18 +27,16 @@ export function DownloadPluginModal({ opened, onClose }: DownloadPluginModalProp
           <IconDownload size={150} />
           <Stack>
             <Text>
-              Download a zip bundle of the KoInsight plugin for KOReader that allows you to sync
-              your reading statistics with a KoInsight instance.
+              下载适用于 KOReader 的 KoInsight 插件压缩包，用于将你的阅读统计同步到 KoInsight。
             </Text>
             <Text>
-              To install the plugin, extract the contents of the zip file into the KOReader plugins
-              directory on your device.
+              安装时请将压缩包内容解压到设备上的 KOReader plugins 目录。
             </Text>
           </Stack>
         </Flex>
 
         <Button component="a" href="/api/plugin/download" leftSection={<IconDownload size={16} />}>
-          Download KOReader Plugin
+          下载 KOReader 插件
         </Button>
       </Flex>
     </Modal>

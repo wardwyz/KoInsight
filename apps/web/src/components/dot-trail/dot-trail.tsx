@@ -57,7 +57,7 @@ export function DotTrail({ percentPerDay }: DotTrailProps): JSX.Element {
             label={
               percentPerDay[day]
                 ? percentPerDay[day].tooltip
-                : `No data for ${new Date(day).toDateString()}`
+                : `${new Date(day).toLocaleDateString('zh-CN')} 暂无数据`
             }
           >
             <div

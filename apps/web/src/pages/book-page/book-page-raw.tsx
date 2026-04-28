@@ -47,21 +47,21 @@ export function BookPageRaw({ book }: BookPageRawProps): JSX.Element {
     <Flex direction="column" gap={20}>
       <Flex gap={8}>
         <NumberInput
-          label="Page Number"
+          label="页码"
           value={page ?? 0}
           onChange={(e) => setPage(Number(e))}
           max={maxPage}
           step={1}
         />
         <DateInput
-          label="Start date"
+          label="开始日期"
           value={startDate}
           onChange={(e) => setStartDate(startOfDay(e!))}
           minDate={min}
           maxDate={endDate}
         />
         <DateInput
-          label="End date"
+          label="结束日期"
           value={endDate}
           onChange={(e) => setEndDate(endOfDay(e!))}
           minDate={startDate}
@@ -71,11 +71,11 @@ export function BookPageRaw({ book }: BookPageRawProps): JSX.Element {
       <Table stickyHeader>
         <Table.Thead>
           <Table.Tr>
-            <Table.Th>Page</Table.Th>
-            <Table.Th>Start time</Table.Th>
-            <Table.Th>Duration</Table.Th>
-            <Table.Th>Total pages</Table.Th>
-            <Table.Th>Device</Table.Th>
+            <Table.Th>页码</Table.Th>
+            <Table.Th>开始时间</Table.Th>
+            <Table.Th>时长</Table.Th>
+            <Table.Th>总页数</Table.Th>
+            <Table.Th>设备</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>

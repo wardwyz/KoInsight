@@ -102,7 +102,7 @@ export function Calendar<T>({ events, dayRenderer }: CalendarProps<T>): JSX.Elem
           </Button>
 
           <Button size="xs" variant="default" onClick={() => setCurrentDate(new Date())}>
-            Today
+            今天
           </Button>
           <MonthPickerInput size="xs" value={currentDate} onChange={(e) => setCurrentDate(e!)} />
         </Flex>

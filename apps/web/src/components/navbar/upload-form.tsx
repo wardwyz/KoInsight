@@ -15,7 +15,7 @@ export function UploadForm(): JSX.Element {
     event.preventDefault();
 
     if (!file) {
-      setMessage('Please select a file before submitting.');
+      setMessage('提交前请先选择文件。');
       return;
     }
 
@@ -29,8 +29,8 @@ export function UploadForm(): JSX.Element {
         // FIXME: this doesn't seem to work.
         await mutate('books');
         notifications.show({
-          title: 'Success',
-          message: 'File uploaded and validated successfully.',
+          title: '上传成功',
+          message: '文件上传并校验成功。',
           position: 'top-center',
           color: 'green',
         });
@@ -41,7 +41,7 @@ export function UploadForm(): JSX.Element {
         const body = await response.json();
         setMessage(body?.error);
       } else {
-        setMessage('Failed to upload file.');
+        setMessage('文件上传失败。');
       }
     } catch (error) {
       setMessage(`Error: ${error}`);
@@ -51,7 +51,7 @@ export function UploadForm(): JSX.Element {
   return (
     <>
       <Button leftSection={<IconUpload size={16} />} onClick={open} variant="light" size="sm">
-        Upload Statistics DB
+        上传统计数据库
       </Button>
       <Modal
         styles={{
@@ -62,7 +62,7 @@ export function UploadForm(): JSX.Element {
             paddingTop: 'var(--mantine-spacing-xs)',
           },
         }}
-        title="Upload KOReader statistics database"
+        title="上传 KOReader 统计数据库"
         opened={modalOpened}
         size="lg"
         onClose={close}
@@ -70,16 +70,16 @@ export function UploadForm(): JSX.Element {
         centered
       >
         <Flex direction="column" gap="sm" mt="lg">
-          <Text>Upload your KOReader statistics.sqlite3 file.</Text>
+          <Text>上传你的 KOReader statistics.sqlite3 文件。</Text>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <FileInput
-              label="Choose Database file"
+              label="选择数据库文件"
               placeholder="statistics.sqlite3"
               onChange={(e) => setFile(e)}
               accept=".sqlite,.sqlite3"
               mb="sm"
             />
-            <Button type="submit">Upload</Button>
+            <Button type="submit">上传</Button>
           </form>
           {message && <p>{message}</p>}
         </Flex>

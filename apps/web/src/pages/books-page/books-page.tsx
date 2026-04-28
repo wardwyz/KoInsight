@@ -93,7 +93,7 @@ export function BooksPage(): JSX.Element {
   });
 
   if (error) {
-    return <Flex justify="center">Failed to load books</Flex>;
+    return <Flex justify="center">加载书籍失败</Flex>;
   }
 
   if (isLoading || !books) {
@@ -107,10 +107,10 @@ export function BooksPage(): JSX.Element {
   if (books.length === 0) {
     return (
       <>
-        <Title mb="xl">Books</Title>
+        <Title mb="xl">书籍</Title>
         <EmptyState
-          title="No books yet"
-          description="It seems like you haven't uploaded any reading statistics yet."
+          title="暂无书籍"
+          description="看起来你还没有上传阅读统计数据。"
         />
       </>
     );
@@ -118,11 +118,11 @@ export function BooksPage(): JSX.Element {
 
   return (
     <>
-      <Title mb="xl">Books</Title>
+      <Title mb="xl">书籍</Title>
       <div className={style.Controls}>
         <Flex gap="md">
           <TextInput
-            placeholder="Search books..."
+            placeholder="搜索书籍..."
             w={media ? '100%' : 300}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -132,7 +132,7 @@ export function BooksPage(): JSX.Element {
               ) : null
             }
           />
-          <Tooltip label="Advanced filters" openDelay={1000} position="top" withArrow>
+          <Tooltip label="高级筛选" openDelay={1000} position="top" withArrow>
             <Button variant="default" onClick={openAdvancedFilters}>
               <IconFilter size={14} />
             </Button>
@@ -141,7 +141,7 @@ export function BooksPage(): JSX.Element {
         <Group align="center">
           <Tooltip
             openDelay={1000}
-            label={`Sort ${sortBy.direction === 'asc' ? 'descending' : 'ascending'}`}
+            label={`按${sortBy.direction === 'asc' ? '降序' : '升序'}排序`}
             position="top"
             withArrow
           >
@@ -161,7 +161,7 @@ export function BooksPage(): JSX.Element {
               )}
             </Button>
           </Tooltip>
-          <Tooltip label="Sort by" openDelay={1000} position="top" withArrow>
+          <Tooltip label="排序字段" openDelay={1000} position="top" withArrow>
             <Select
               leftSection={<IconArrowsDownUp size={16} />}
               w={150}
@@ -170,18 +170,18 @@ export function BooksPage(): JSX.Element {
               onChange={(value) => setSortBy((prev) => ({ ...prev, key: value as keyof Book }))}
               data={
                 [
-                  { label: 'Added', value: 'id' },
-                  { label: 'Title', value: 'title' },
-                  { label: 'Author', value: 'authors' },
-                  { label: 'Read time', value: 'total_read_time' },
-                  { label: 'Last open', value: 'last_open' },
+                  { label: '添加时间', value: 'id' },
+                  { label: '标题', value: 'title' },
+                  { label: '作者', value: 'authors' },
+                  { label: '阅读时长', value: 'total_read_time' },
+                  { label: '最近打开', value: 'last_open' },
                 ] as { label: string; value: keyof Book }[]
               }
               defaultValue="title"
             />
           </Tooltip>
           <Button.Group variant="default">
-            <Tooltip label="Table view" position="top" withArrow>
+            <Tooltip label="表格视图" position="top" withArrow>
               <Button
                 variant={mode === 'table' ? 'filled' : 'default'}
                 onClick={() => setMode('table')}
@@ -189,7 +189,7 @@ export function BooksPage(): JSX.Element {
                 <IconTable size={16} />
               </Button>
             </Tooltip>
-            <Tooltip label="Cards view" position="top" withArrow>
+            <Tooltip label="卡片视图" position="top" withArrow>
               <Button
                 variant={mode === 'cards' ? 'filled' : 'default'}
                 onClick={() => setMode('cards')}
@@ -204,7 +204,7 @@ export function BooksPage(): JSX.Element {
       <Modal
         opened={viewAdvancedFilters}
         onClose={closeAdvancedFilters}
-        title="Advanced filters"
+        title="高级筛选"
         styles={{
           title: {
             fontSize: 'var(--mantine-font-size-xl)',
@@ -219,7 +219,7 @@ export function BooksPage(): JSX.Element {
         <Checkbox
           checked={showHiddenBooks}
           onChange={(v) => setShowHiddenBooks(v.target.checked)}
-          label="View hidden books"
+          label="显示隐藏书籍"
         />
       </Modal>
     </>

@@ -88,7 +88,7 @@ export function CalendarPage(): JSX.Element {
 
   return (
     <>
-      <Title mb="xl">Calendar</Title>
+      <Title mb="xl">日历</Title>
       <Calendar<DayData>
         events={calendarEvents}
         dayRenderer={(data) => getBookNames(data).map((el) => <div>{el}</div>)}

@@ -68,11 +68,11 @@ export function BookPage(): JSX.Element {
         <Tabs.List style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Flex>
             <Tabs.Tab value="calendar" leftSection={<IconCalendar size={16} />}>
-              Calendar
+              日历
             </Tabs.Tab>
             <Tabs.Tab value="annotations" leftSection={<IconHighlight size={16} />}>
               <Flex align="center" gap="xs">
-                Annotations{' '}
+                标注{' '}
                 {book.annotations.length > 0 && (
                   <Badge color="gray" size="xs">
                     {book.annotations.length}
@@ -81,11 +81,11 @@ export function BookPage(): JSX.Element {
               </Flex>
             </Tabs.Tab>
             <Tabs.Tab value="manage" leftSection={<IconSettings size={16} />}>
-              Manage data
+              数据管理
             </Tabs.Tab>
             {tabValue === 'raw-values' && (
               <Tabs.Tab value="raw-values" leftSection={<IconTable size={16} />}>
-                Raw Values
+                原始数据
               </Tabs.Tab>
             )}
           </Flex>
@@ -104,7 +104,7 @@ export function BookPage(): JSX.Element {
                 }}
               >
                 <Flex align="center" gap="xs">
-                  <span>Advanced</span>
+                  <span>高级</span>
                   <IconChevronDown size={16} />
                 </Flex>
               </UnstyledButton>
@@ -114,10 +114,10 @@ export function BookPage(): JSX.Element {
                 leftSection={<IconTable size={16} />}
                 onClick={() => setTabValue('raw-values')}
               >
-                Raw Values
+                原始数据
               </Menu.Item>
               <Menu.Item leftSection={<IconRefresh size={16} />} onClick={() => mutate()}>
-                Reload book data
+                刷新书籍数据
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>
@@ -173,7 +173,7 @@ function StatsCard({ book }: { book: BookWithData }): JSX.Element {
     >
       <Stack gap={0} align="center">
         <Text size="sm" c="dimmed" tt="uppercase" fw={700}>
-          Reading progress
+          阅读进度
         </Text>
         <Group align="center" justify="space-between" wrap="nowrap">
           <Stack align="center" gap="xs">
@@ -187,7 +187,7 @@ function StatsCard({ book }: { book: BookWithData }): JSX.Element {
                     {Math.round((book.unique_read_pages / bookPages) * 100)}%
                   </Text>
                   <Text size="xs" c="dimmed" ta="center" fw="bold">
-                    {book.unique_read_pages} / {bookPages} <br /> pages read
+                    {book.unique_read_pages} / {bookPages} <br /> 已读页数
                   </Text>
                 </Stack>
               }
@@ -205,7 +205,7 @@ function StatsCard({ book }: { book: BookWithData }): JSX.Element {
               <IconClock size={18} style={{ flexShrink: 0, opacity: 0.6 }} />
               <Stack gap={0}>
                 <Text fz={11} c="dimmed" lh={1.2} tt="uppercase" fw="bold">
-                  Total read time
+                  总阅读时长
                 </Text>
                 <Text size="md" fw={600}>
                   {formatSecondsToHumanReadable(book.total_read_time)}
@@ -217,7 +217,7 @@ function StatsCard({ book }: { book: BookWithData }): JSX.Element {
               <IconClockHour4 size={18} style={{ flexShrink: 0, opacity: 0.6 }} />
               <Stack gap={0}>
                 <Text fz={11} c="dimmed" lh={1.2} tt="uppercase" fw="bold">
-                  Average per day
+                  日均阅读时长
                 </Text>
                 <Text size="md" fw={600}>
                   {formatSecondsToHumanReadable(avgPerDay)}
@@ -231,7 +231,7 @@ function StatsCard({ book }: { book: BookWithData }): JSX.Element {
               <IconCalendar size={18} style={{ flexShrink: 0, opacity: 0.6 }} />
               <Stack gap={0}>
                 <Text fz={11} c="dimmed" lh={1.2} tt="uppercase" fw="bold">
-                  Days reading
+                  阅读天数
                 </Text>
                 <Text size="md" fw={600}>
                   {Object.keys(book.read_per_day).length}
@@ -243,7 +243,7 @@ function StatsCard({ book }: { book: BookWithData }): JSX.Element {
               <IconFile size={18} style={{ flexShrink: 0, opacity: 0.6 }} />
               <Stack gap={0}>
                 <Text fz={11} c="dimmed" lh={1.2} tt="uppercase" fw="bold">
-                  Avg time per page
+                  平均每页耗时
                 </Text>
                 <Text size="md" fw={600}>
                   {book.stats.length > 0

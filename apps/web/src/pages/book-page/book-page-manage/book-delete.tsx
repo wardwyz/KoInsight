@@ -20,15 +20,14 @@ export function BookDelete({ book }: BookDeleteProps) {
 
   const openDeleteConfirm = () =>
     modals.openConfirmModal({
-      title: 'Delete Book?',
+      title: '删除书籍？',
       centered: true,
       children: (
         <Text size="sm">
-          Are you sure you want to delete <strong>{book ? `"${book?.title}"` : 'this book'}</strong>
-          ? This action is destructive and cannot be reverted.
+          确定要删除 <strong>{book ? `"${book?.title}"` : '这本书'}</strong> 吗？该操作不可撤销。
         </Text>
       ),
-      labels: { confirm: 'Delete', cancel: "No, don't delete it" },
+      labels: { confirm: '删除', cancel: '取消' },
       confirmProps: { color: 'red' },
       onConfirm: onDelete,
     });
@@ -40,15 +39,15 @@ export function BookDelete({ book }: BookDeleteProps) {
       await mutate('books');
       navigate(RoutePath.HOME);
       notifications.show({
-        title: 'Book deleted',
-        message: `${book ? `"${book?.title}"` : 'Book'} deleted successfully.`,
+        title: '书籍已删除',
+        message: `${book ? `"${book?.title}"` : '书籍'}删除成功。`,
         color: 'green',
         position: 'top-center',
       });
     } catch (error) {
       notifications.show({
-        title: 'Failed to delete the book',
-        message: 'Failed to delete the book.',
+        title: '删除书籍失败',
+        message: '删除书籍失败。',
         color: 'red',
         position: 'top-center',
       });
@@ -58,7 +57,7 @@ export function BookDelete({ book }: BookDeleteProps) {
   return (
     <div>
       <Title order={3} mb="md">
-        Delete book
+        删除书籍
       </Title>
       <Button
         loading={deleteLoading}
@@ -66,7 +65,7 @@ export function BookDelete({ book }: BookDeleteProps) {
         variant="danger"
         onClick={openDeleteConfirm}
       >
-        Delete book
+        删除书籍
       </Button>
     </div>
   );

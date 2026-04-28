@@ -132,22 +132,22 @@ export function WeekStats({
       <Statistics
         data={[
           {
-            label: 'Read time',
+            label: '阅读时长',
             value: formatSecondsToHumanReadable(sum(weekData?.map((stat) => stat.duration) ?? [])),
             icon: IconClock,
           },
           {
-            label: 'Pages read',
+            label: '阅读页数',
             value: pagesRead,
             icon: IconPageBreak,
           },
           {
-            label: 'Average pages per day',
+            label: '日均页数',
             value: avgPagesPerDay,
             icon: IconArrowsVertical,
           },
           {
-            label: 'Average time per day',
+            label: '日均阅读时长',
             value: formatSecondsToHumanReadable(
               Math.round(sum(weekData?.map((stat) => stat.duration) ?? []) / weekDaysPassed)
             ),
@@ -168,7 +168,7 @@ export function WeekStats({
         series={[
           {
             name: 'duration',
-            label: 'Reading time',
+            label: '阅读时长',
             color: colorScheme === 'dark' ? 'violet.3' : 'violet.7',
           },
         ]}

@@ -59,7 +59,7 @@ export function StatsPage(): JSX.Element {
 
   return (
     <>
-      <Title mb="sm">Reading statistics</Title>
+      <Title mb="sm">阅读统计</Title>
       <Text
         mt={4}
         mb="md"
@@ -73,49 +73,49 @@ export function StatsPage(): JSX.Element {
         fw={900}
       >
         {last7DaysReadTime > 0 ? (
-          <>You read for {formatSecondsToHumanReadable(last7DaysReadTime)} this week. Keep it up!</>
+          <>你本周已阅读 {formatSecondsToHumanReadable(last7DaysReadTime)}，继续保持！</>
         ) : (
-          <>You haven't read this week yet. No better time to start!</>
+          <>你本周还没有阅读，现在开始正合适！</>
         )}
       </Text>
       <Box my="xl">
         <Statistics
           data={[
             {
-              label: 'Total read time',
+              label: '总阅读时长',
               value: formatSecondsToHumanReadable(totalReadingTime),
               icon: IconClock,
             },
             {
-              label: 'Total pages read',
+              label: '总阅读页数',
               value: totalPagesRead,
               icon: IconPageBreak,
             },
             {
-              label: 'Longest time reading in a day',
+              label: '单日最长阅读时长',
               value: formatSecondsToHumanReadable(longestDay),
               icon: IconMaximize,
             },
             {
-              label: 'Most pages in a day',
-              value: mostPagesInADay ?? 'N/A',
+              label: '单日最多阅读页数',
+              value: mostPagesInADay ?? '无',
               icon: IconMaximize,
             },
           ]}
         />
       </Box>
       <Title mb="xl" order={3}>
-        Reading history
+        阅读历史
       </Title>
       <Box mb="xl">
         <ReadingCalendar />
       </Box>
       <Title mt="xl" mb={4} order={3}>
-        Weekly stats
+        本周统计
       </Title>
       <WeekStats stats={stats} booksByMd5={booksByMd5} />
       <Title mt="xl" order={3}>
-        Per day of the week
+        按星期统计
       </Title>
       <BarChart
         h={300}
@@ -124,7 +124,7 @@ export function StatsPage(): JSX.Element {
         series={[
           {
             name: 'value',
-            label: 'Reading time',
+            label: '阅读时长',
             color: colorScheme === 'dark' ? 'koinsight.7' : 'koinsight.1',
           },
         ]}
@@ -142,7 +142,7 @@ export function StatsPage(): JSX.Element {
         valueFormatter={(value) => formatSecondsToHumanReadable(value)}
       />
       <Title mt="xl" order={3}>
-        Monthly reading time
+        每月阅读时长
       </Title>
       <BarChart
         h={300}
@@ -164,7 +164,7 @@ export function StatsPage(): JSX.Element {
         series={[
           {
             name: 'duration',
-            label: 'Reading time',
+            label: '阅读时长',
             color: colorScheme === 'dark' ? 'violet.7' : 'violet.1',
           },
         ]}

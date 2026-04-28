@@ -11,7 +11,6 @@ import {
 } from '@tabler/icons-react';
 import { format } from 'date-fns';
 import { JSX } from 'react';
-import { Link } from 'react-router';
 import { RoutePath } from '../../../routes';
 
 type AnnotationCardProps = {
@@ -71,7 +70,7 @@ export function AnnotationCard({ annotation, book }: AnnotationCardProps): JSX.E
             )}
             {isDeleted && (
               <Badge color="red" variant="filled" size="sm">
-                Deleted
+                已删除
               </Badge>
             )}
           </Group>
@@ -91,7 +90,7 @@ export function AnnotationCard({ annotation, book }: AnnotationCardProps): JSX.E
         {annotation.note && (
           <Box>
             <Text size="xs" fw={600} c="dimmed" mb={4}>
-              Note:
+              笔记：
             </Text>
             <Text size="sm">{annotation.note}</Text>
           </Box>
@@ -106,7 +105,7 @@ export function AnnotationCard({ annotation, book }: AnnotationCardProps): JSX.E
               size="xs"
               style={{ display: 'flex', alignItems: 'center', gap: 6 }}
             >
-              <IconBooks size={16} /> {book.title} by {book.authors}
+              <IconBooks size={16} /> {book.title} · {book.authors}
             </Anchor>
           )}
           {annotation.chapter && (
@@ -116,7 +115,7 @@ export function AnnotationCard({ annotation, book }: AnnotationCardProps): JSX.E
           )}
           {annotation.pageno && annotation.total_pages && (
             <Text size="xs" c="dimmed" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <IconVocabulary size={16} /> Page {annotation.pageno}/{annotation.total_pages}
+              <IconVocabulary size={16} /> 第 {annotation.pageno}/{annotation.total_pages} 页
             </Text>
           )}
         </Group>

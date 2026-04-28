@@ -64,7 +64,7 @@ export function BookCard({ book }: BookCardProps): JSX.Element {
           radius="md"
           fallbackSrc="/book-placeholder-small.png"
         />
-        <Tooltip label="Change cover" position="right" withArrow>
+        <Tooltip label="更换封面" position="right" withArrow>
           <ActionIcon
             className={style.EditIcon}
             variant="filled"
@@ -79,14 +79,14 @@ export function BookCard({ book }: BookCardProps): JSX.Element {
       <Modal
         opened={isCoverSelectorOpened}
         onClose={closeCoverSelector}
-        title="Change book cover"
+        title="更换书籍封面"
         size="calc(100vw - 3rem)"
         centered
       >
         <Tabs defaultValue="cover-selector" variant="outline">
           <Tabs.List>
-            <Tabs.Tab value="cover-selector">Select Cover</Tabs.Tab>
-            <Tabs.Tab value="upload-cover">Upload Cover</Tabs.Tab>
+            <Tabs.Tab value="cover-selector">选择封面</Tabs.Tab>
+            <Tabs.Tab value="upload-cover">上传封面</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="cover-selector" p="md">
@@ -100,23 +100,23 @@ export function BookCard({ book }: BookCardProps): JSX.Element {
       </Modal>
       <div>
         <Flex align="center" gap={8} mt={3}>
-          <Tooltip label="Author" position="top" withArrow>
+          <Tooltip label="作者" position="top" withArrow>
             <IconUser stroke={1.5} size={16} />
           </Tooltip>
-          <span className={style.Author}>{book.authors ?? 'N/A'}</span>
+          <span className={style.Author}>{book.authors ?? '无'}</span>
         </Flex>
 
         <Title fw="800">{book.title}</Title>
 
         <Flex align="center" gap={8} mt="sm">
-          <Tooltip label="Series" position="top" withArrow>
+          <Tooltip label="系列" position="top" withArrow>
             <IconBooks stroke={1.5} size={16} />
           </Tooltip>
           <span className={style.InfoText}>{book.series}</span>
         </Flex>
 
         <Flex align="center" gap={8} mt={5}>
-          <Tooltip label="Last opened" position="top" withArrow>
+          <Tooltip label="最近打开" position="top" withArrow>
             <IconCalendar stroke={1.5} size={16} />
           </Tooltip>
           <span className={style.InfoText}>{formatRelativeDate(book.last_open * 1000)}</span>
@@ -124,7 +124,7 @@ export function BookCard({ book }: BookCardProps): JSX.Element {
 
         <Group>
           <Flex align="center" gap={8} mt={5}>
-            <Tooltip label="Highlights" position="top" withArrow>
+            <Tooltip label="高亮" position="top" withArrow>
               <IconHighlight stroke={1.5} size={16} />
             </Tooltip>
             <span className={style.InfoText}>
@@ -133,7 +133,7 @@ export function BookCard({ book }: BookCardProps): JSX.Element {
           </Flex>
 
           <Flex align="center" gap={8} mt={5}>
-            <Tooltip label="Notes" position="top" withArrow>
+            <Tooltip label="笔记" position="top" withArrow>
               <IconNote stroke={1.5} size={16} />
             </Tooltip>
             <span className={style.InfoText}>

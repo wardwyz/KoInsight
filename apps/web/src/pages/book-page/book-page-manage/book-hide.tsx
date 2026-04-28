@@ -34,15 +34,15 @@ export function BookHide({ book }: BookHideProps) {
       }
 
       notifications.show({
-        title: `Book ${hidden ? 'hidden' : 'shown'}`,
-        message: `${book ? `"${book?.title}"` : 'Book'} ${hidden ? 'hidden' : 'shown'} successfully.`,
+        title: hidden ? '书籍已隐藏' : '书籍已显示',
+        message: `${book ? `"${book?.title}"` : '书籍'}${hidden ? '已隐藏' : '已显示'}。`,
         color: 'green',
         position: 'top-center',
       });
     } catch (error) {
       notifications.show({
-        title: `Failed to ${hidden ? 'hide' : 'show'} the book`,
-        message: `Failed to ${hidden ? 'hide' : 'show'} the book.`,
+        title: hidden ? '隐藏书籍失败' : '显示书籍失败',
+        message: hidden ? '隐藏书籍失败。' : '显示书籍失败。',
         color: 'red',
         position: 'top-center',
       });
@@ -54,14 +54,14 @@ export function BookHide({ book }: BookHideProps) {
   return (
     <div>
       <Title order={3} mb="md">
-        Hide book
+        隐藏书籍
       </Title>
       <Text size="sm" mb="md" lh="xl">
-        Hidden books are not shown in the book list and are excluded from statistics.
+        隐藏后该书不会出现在书单中，也不会计入统计数据。
       </Text>
       <Switch
         disabled={hideLoading}
-        label="Hide book"
+        label="隐藏书籍"
         checked={book.soft_deleted}
         onChange={(e) => onUpdate(e.target.checked)}
       ></Switch>

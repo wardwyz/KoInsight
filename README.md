@@ -73,6 +73,26 @@ services:
 ```
 Run `docker compose up -d`.
 
+### GitHub Actions 自动发布到 GHCR
+仓库已包含 `Docker Publish` workflow，会在推送到 `master` 或推送 `v*` 标签时自动构建并发布镜像到 GHCR。
+
+- 镜像地址：`ghcr.io/<你的 GitHub 用户名或组织>/koinsight`
+- 默认分支会更新 `latest` 标签
+- 为了兼容群晖 **DS220+**（x86_64），发布平台固定为 `linux/amd64`
+
+群晖 Docker / Container Manager 建议直接使用：
+
+```yaml
+services:
+  koinsight:
+    image: ghcr.io/<你的 GitHub 用户名或组织>/koinsight:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+```
+
 # Configuration
 KoInsight can be configured using the following environment variables:
 

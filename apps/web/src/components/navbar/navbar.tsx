@@ -38,7 +38,7 @@ export function Navbar({ onNavigate }: { onNavigate?: () => void }): JSX.Element
 
   const tabs = [
     { link: RoutePath.LIBRARY, label: '书库', icon: IconBook2 },
-    { link: RoutePath.BOOKS, label: '书籍', icon: IconBooks },
+    { link: RoutePath.BOOKS, label: '在读', icon: IconBooks },
     { link: RoutePath.CALENDAR, label: '日历', icon: IconCalendar },
     { link: RoutePath.STATS, label: '阅读统计', icon: IconChartBar },
     { link: RoutePath.SYNCS, label: '进度同步', icon: IconReload },

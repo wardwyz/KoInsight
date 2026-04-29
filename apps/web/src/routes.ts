@@ -1,6 +1,7 @@
 import { generatePath } from 'react-router';
 
 export enum RoutePath {
+  LIBRARY = '/library',
   BOOKS = '/books',
   BOOK = '/books/:id',
   CALENDAR = '/calendar/',

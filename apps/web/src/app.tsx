@@ -21,6 +21,7 @@ import { Logo } from './components/logo/logo';
 import { Navbar } from './components/navbar/navbar';
 import { BookPage } from './pages/book-page/book-page';
 import { BooksPage } from './pages/books-page/books-page';
+import { LibraryPage } from './pages/library-page/library-page';
 import { CalendarPage } from './pages/calendar-page';
 import { StatsPage } from './pages/stats-page/stats-page';
 import { SyncsPage } from './pages/syncs-page';
@@ -67,6 +68,7 @@ export function App(): JSX.Element {
           <main className={style.Main}>
             <Routes>
               <Route index element={<Navigate to={RoutePath.BOOKS} />} />
+              <Route path={RoutePath.LIBRARY} element={<LibraryPage />} />
               <Route path={RoutePath.BOOKS} element={<BooksPage />} />
               <Route path={RoutePath.BOOK} element={<BookPage />} />
               <Route path={RoutePath.CALENDAR} element={<CalendarPage />} />

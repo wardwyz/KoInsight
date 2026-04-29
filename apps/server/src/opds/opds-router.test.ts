@@ -33,6 +33,18 @@ describe('opds router', () => {
     expect(response.text).toContain('type="application/epub+zip"');
   });
 
+
+  it('includes parsed author metadata when filename follows "title - author"', async () => {
+    const fileName = '人呐 - 莫言.epub';
+    await writeFile(path.join(tempBooksPath, fileName), 'book-content');
+
+    const response = await request(app).get('/opds');
+
+    expect(response.status).toBe(200);
+    expect(response.text).toContain('<title>人呐</title>');
+    expect(response.text).toContain('<name>莫言</name>');
+  });
+
   it('downloads files with original filename and MIME type', async () => {
     const fileName = 'downloadable.epub';
     await writeFile(path.join(tempBooksPath, fileName), 'book-content');

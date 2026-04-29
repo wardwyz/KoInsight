@@ -33,6 +33,7 @@ type BookFile = {
   relativePath: string;
   absolutePath: string;
   title: string;
+  author: string;
   extension: string;
 };
 
@@ -61,6 +62,23 @@ function getMimeTypeByExtension(extension: string) {
   return MIME_TYPE_BY_EXTENSION[extension] ?? 'application/octet-stream';
 }
 
+function parseTitleAndAuthor(filenameWithoutExtension: string) {
+  const separator = ' - ';
+  const separatorIndex = filenameWithoutExtension.lastIndexOf(separator);
+
+  if (separatorIndex <= 0 || separatorIndex + separator.length >= filenameWithoutExtension.length) {
+    return { title: filenameWithoutExtension, author: 'Unknown' };
+  }
+
+  const title = filenameWithoutExtension.slice(0, separatorIndex).trim();
+  const author = filenameWithoutExtension.slice(separatorIndex + separator.length).trim();
+
+  return {
+    title: title || filenameWithoutExtension,
+    author: author || 'Unknown',
+  };
+}
+
 async function collectBookFiles(rootPath: string): Promise<BookFile[]> {
   const queue = [rootPath];
   const files: BookFile[] = [];
@@ -87,12 +105,14 @@ async function collectBookFiles(rootPath: string): Promise<BookFile[]> {
       }
 
       const relativePath = toPosixPath(path.relative(rootPath, absolutePath));
-      const title = path.basename(entry.name, extension);
+      const fileStem = path.basename(entry.name, extension);
+      const { title, author } = parseTitleAndAuthor(fileStem);
 
       files.push({
         relativePath,
         absolutePath,
         title,
+        author,
         extension,
       });
     }
@@ -125,6 +145,9 @@ router.get('/', async (req, res) => {
       return `
   <entry>
     <title>${escapeXml(book.title)}</title>
+    <author>
+      <name>${escapeXml(book.author)}</name>
+    </author>
     <id>urn:koinsight:book:${id}</id>
     <updated>${updated}</updated>
     <link rel="http://opds-spec.org/acquisition"

@@ -1,3 +1,4 @@
+import contentDisposition = require('content-disposition');
 import { Router } from 'express';
 import { createHash } from 'crypto';
 import { access, readdir } from 'fs/promises';
@@ -171,6 +172,7 @@ router.get('/books/:encodedPath', async (req, res) => {
     const filename = path.basename(absolutePath);
     res.download(absolutePath, filename, {
       headers: {
+        'Content-Disposition': contentDisposition(filename, { type: 'attachment' }),
         'Content-Type': getMimeTypeByExtension(extension),
       },
     });

@@ -44,4 +44,16 @@ describe('opds router', () => {
     expect(response.header['content-type']).toContain('application/epub+zip');
     expect(response.header['content-disposition']).toContain(`filename="${fileName}"`);
   });
+
+
+  it('sets UTF-8 content disposition for chinese filenames', async () => {
+    const fileName = '中文书名.epub';
+    await writeFile(path.join(tempBooksPath, fileName), 'book-content');
+    const encodedPath = Buffer.from(fileName, 'utf8').toString('base64url');
+
+    const response = await request(app).get(`/opds/books/${encodedPath}`);
+
+    expect(response.status).toBe(200);
+    expect(response.header['content-disposition']).toContain("filename*=UTF-8''%E4%B8%AD%E6%96%87%E4%B9%A6%E5%90%8D.epub");
+  });
 });

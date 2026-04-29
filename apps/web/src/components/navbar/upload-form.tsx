@@ -51,7 +51,7 @@ export function UploadForm(): JSX.Element {
   return (
     <>
       <Button leftSection={<IconUpload size={16} />} onClick={open} variant="light" size="sm">
-        上传统计数据库
+        上传统计
       </Button>
       <Modal
         styles={{

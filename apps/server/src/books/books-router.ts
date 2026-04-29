@@ -11,6 +11,9 @@ import { getBookById } from './get-book-by-id-middleware';
 const router = Router();
 const allowedBookExtensions = new Set(['.epub', '.pdf', '.txt']);
 
+const decodeUploadFilename = (filename: string) =>
+  Buffer.from(filename, 'latin1').toString('utf8');
+
 const bookUploadStorage = multer.diskStorage({
   destination: (_req, _file, cb) => {
     if (!existsSync(appConfig.booksPath)) {
@@ -19,14 +22,14 @@ const bookUploadStorage = multer.diskStorage({
     cb(null, appConfig.booksPath);
   },
   filename: (_req, file, cb) => {
-    cb(null, file.originalname);
+    cb(null, decodeUploadFilename(file.originalname));
   },
 });
 
 const bookUpload = multer({
   storage: bookUploadStorage,
   fileFilter: (_req, file, cb) => {
-    const extension = path.extname(file.originalname).toLowerCase();
+    const extension = path.extname(decodeUploadFilename(file.originalname)).toLowerCase();
     if (allowedBookExtensions.has(extension)) {
       cb(null, true);
       return;

@@ -158,6 +158,32 @@ describe('books-router', () => {
       });
     });
 
+
+    it('preserves chinese filenames on upload', async () => {
+      const response = await request(app)
+        .post('/books/upload')
+        .attach('file', Buffer.from('epub-content'), '三体.epub');
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({
+        message: 'Book uploaded successfully',
+        file: '三体.epub',
+      });
+    });
+
+
+    it('keeps ascii filenames unchanged on upload', async () => {
+      const response = await request(app)
+        .post('/books/upload')
+        .attach('file', Buffer.from('epub-content'), 'normal-file.epub');
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({
+        message: 'Book uploaded successfully',
+        file: 'normal-file.epub',
+      });
+    });
+
     it('rejects unsupported file extensions', async () => {
       const response = await request(app)
         .post('/books/upload')

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { existsSync, mkdirSync } from 'fs';
+import { existsSync, mkdirSync, readdirSync, statSync } from 'fs';
 import path from 'path';
 import multer from 'multer';
 import { appConfig } from '../config';
@@ -48,6 +48,32 @@ router.post('/upload', bookUpload.single('file'), async (req: Request, res: Resp
     message: 'Book uploaded successfully',
     file: req.file.filename,
   });
+});
+
+
+router.get('/library', async (_req: Request, res: Response) => {
+  if (!existsSync(appConfig.booksPath)) {
+    res.status(200).json([]);
+    return;
+  }
+
+  const books = readdirSync(appConfig.booksPath, { withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => {
+      const extension = path.extname(entry.name).toLowerCase();
+      const stat = statSync(path.join(appConfig.booksPath, entry.name));
+
+      return {
+        fileName: entry.name,
+        extension,
+        sizeBytes: stat.size,
+        modifiedAt: stat.mtimeMs,
+      };
+    })
+    .filter((entry) => allowedBookExtensions.has(entry.extension))
+    .sort((a, b) => b.modifiedAt - a.modifiedAt);
+
+  res.status(200).json(books);
 });
 
 /**

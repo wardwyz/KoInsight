@@ -1,4 +1,4 @@
-import { Book, BookWithData } from '@koinsight/common/types';
+import { Book, BookWithData, LibraryBook } from '@koinsight/common/types';
 import useSWR from 'swr';
 import { API_URL, fetchFromAPI } from './api';
 
@@ -44,4 +44,8 @@ export function uploadBookFile(formData: FormData) {
     body: formData,
     headers: { Accept: 'multipart/form-data' },
   });
+}
+
+export function useLibraryBooks() {
+  return useSWR(['books-library'], () => fetchFromAPI<LibraryBook[]>('books/library'));
 }

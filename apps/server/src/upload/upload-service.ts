@@ -10,6 +10,7 @@ import {
 import Database, { Database as DatabaseType } from 'better-sqlite3';
 import { AnnotationsRepository } from '../annotations/annotations-repository';
 import { db } from '../knex';
+import { normalizeBookTitle } from '../utils/strings';
 
 export class UploadService {
   private static UNKNOWN_DEVICE_ID = 'manual-upload';
@@ -61,7 +62,7 @@ export class UploadService {
       const newBooks: Partial<Book>[] = booksToImport.map((book) => ({
         id: book.id,
         md5: book.md5,
-        title: book.title,
+        title: normalizeBookTitle(book.title),
         authors: book.authors,
         series: book.series,
         language: book.language,

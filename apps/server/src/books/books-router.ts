@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { existsSync, mkdirSync, readdirSync, statSync } from 'fs';
+import { existsSync, mkdirSync, readdirSync, statSync, unlinkSync } from 'fs';
 import path from 'path';
 import multer from 'multer';
 import { appConfig } from '../config';
@@ -77,6 +77,30 @@ router.get('/library', async (_req: Request, res: Response) => {
     .sort((a, b) => b.modifiedAt - a.modifiedAt);
 
   res.status(200).json(books);
+});
+
+router.delete('/library', async (req: Request, res: Response) => {
+  const fileName = req.body?.fileName;
+
+  if (!fileName || typeof fileName !== 'string') {
+    res.status(400).json({ error: 'Missing fileName' });
+    return;
+  }
+
+  const filePath = path.join(appConfig.booksPath, fileName);
+
+  if (!existsSync(filePath)) {
+    res.status(404).json({ error: 'File not found' });
+    return;
+  }
+
+  try {
+    unlinkSync(filePath);
+    res.status(200).json({ message: 'Library book deleted' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to delete library book' });
+  }
 });
 
 /**

@@ -49,3 +49,7 @@ export function uploadBookFile(formData: FormData) {
 export function useLibraryBooks() {
   return useSWR(['books-library'], () => fetchFromAPI<LibraryBook[]>('books/library'));
 }
+
+export async function deleteLibraryBook(fileName: string) {
+  return fetchFromAPI<{ message: string }>('books/library', 'DELETE', { fileName });
+}

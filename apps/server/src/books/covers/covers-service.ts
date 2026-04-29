@@ -93,13 +93,28 @@ export class CoversService {
         const basename = path.basename(entry.name, '.epub');
         const normalizedBasename = this.normalizeBookName(basename);
 
-        if (basename === bookTitle || normalizedBasename === normalizedBookTitle) {
+        if (this.isMatchingTitle(basename, bookTitle, normalizedBookTitle, normalizedBasename)) {
           return absolutePath;
         }
       }
     }
 
     return null;
+  }
+
+
+  private static isMatchingTitle(
+    basename: string,
+    bookTitle: string,
+    normalizedBookTitle: string,
+    normalizedBasename: string
+  ): boolean {
+    if (basename === bookTitle || normalizedBasename === normalizedBookTitle) {
+      return true;
+    }
+
+    const filenameTitle = basename.split(/\s*-\s*/)[0];
+    return this.normalizeBookName(filenameTitle) === normalizedBookTitle;
   }
 
   private static normalizeBookName(name: string): string {

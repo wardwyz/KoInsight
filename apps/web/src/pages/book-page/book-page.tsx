@@ -28,6 +28,7 @@ import { sum } from 'ramda';
 import { JSX, useState } from 'react';
 import { useParams } from 'react-router';
 import { useBookWithData } from '../../api/use-book-with-data';
+import { useProgresses } from '../../api/kosync';
 import { formatSecondsToHumanReadable } from '../../utils/dates';
 import { BookCard } from './book-card';
 import { BookPageAnnotations } from './book-page-annotations';
@@ -38,6 +39,7 @@ import { BookPageRaw } from './book-page-raw';
 export function BookPage(): JSX.Element {
   const { id } = useParams() as { id: string };
   const { data: book, isLoading, mutate } = useBookWithData(Number(id));
+  const { data: progresses } = useProgresses();
 
   const [tabValue, setTabValue] = useState<string | null>('calendar');
 
@@ -49,11 +51,16 @@ export function BookPage(): JSX.Element {
     );
   }
 
+  const latestSyncPercentage = (progresses ?? [])
+    .filter((progress) => progress.document === book.md5)
+    .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())[0]
+    ?.percentage;
+
   return (
     <Stack gap="md">
       <Group justify="space-between" gap="md">
         <BookCard book={book} />
-        <StatsCard book={book} />
+        <StatsCard book={book} latestSyncPercentage={latestSyncPercentage} />
       </Group>
 
       <Group gap="xs">
@@ -151,14 +158,24 @@ export function BookPage(): JSX.Element {
   );
 }
 
-function StatsCard({ book }: { book: BookWithData }): JSX.Element {
+function StatsCard({
+  book,
+  latestSyncPercentage,
+}: {
+  book: BookWithData;
+  latestSyncPercentage?: number;
+}): JSX.Element {
   const bookPages =
     book?.reference_pages ||
     book?.device_data.reduce((acc, device) => Math.max(acc, device.pages), 0) ||
     0;
-  const readPagesByProgress = Math.min(book.total_read_pages || 0, bookPages || Infinity);
-  const readPages = readPagesByProgress || book.unique_read_pages;
-  const readPercentage = bookPages > 0 ? (readPages / bookPages) * 100 : 0;
+  const readPercentage =
+    latestSyncPercentage !== undefined
+      ? Math.max(0, Math.min(latestSyncPercentage * 100, 100))
+      : bookPages > 0
+        ? (book.unique_read_pages / bookPages) * 100
+        : 0;
+  const readPages = Math.round((bookPages * readPercentage) / 100);
 
   const readingDays = book ? Object.keys(book.read_per_day).length : 0;
   const avgPerDay = readingDays > 0 ? (book?.total_read_time ?? 0) / readingDays : 0;

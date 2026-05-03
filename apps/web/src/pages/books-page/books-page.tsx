@@ -23,6 +23,7 @@ import {
 } from '@tabler/icons-react';
 import { JSX, useState } from 'react';
 import { useBooks } from '../../api/books';
+import { useProgresses } from '../../api/kosync';
 import { EmptyState } from '../../components/empty-state/empty-state';
 import { BooksCards } from './books-cards';
 import { BooksTable } from './books-table';
@@ -58,6 +59,23 @@ export function BooksPage(): JSX.Element {
   });
 
   const { data: books, isLoading, error } = useBooks({ showHidden: showHiddenBooks });
+  const { data: progresses } = useProgresses();
+
+  const percentageByDocument = (progresses ?? []).reduce<
+    Record<string, { percentage: number; updatedAt: number }>
+  >((acc, progress) => {
+    const updatedAt = new Date(progress.updated_at).getTime();
+    const current = acc[progress.document];
+
+    if (!current || updatedAt > current.updatedAt) {
+      acc[progress.document] = {
+        percentage: progress.percentage,
+        updatedAt,
+      };
+    }
+
+    return acc;
+  }, {});
 
   const visibleBooks =
     searchTerm.length === 0
@@ -200,7 +218,11 @@ export function BooksPage(): JSX.Element {
           </Button.Group>
         </Group>
       </div>
-      {mode === 'table' ? <BooksTable books={sortedBooks} /> : <BooksCards books={sortedBooks} />}
+      {mode === 'table' ? (
+        <BooksTable books={sortedBooks} percentageByDocument={percentageByDocument} />
+      ) : (
+        <BooksCards books={sortedBooks} percentageByDocument={percentageByDocument} />
+      )}
       <Modal
         opened={viewAdvancedFilters}
         onClose={closeAdvancedFilters}

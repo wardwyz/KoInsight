@@ -11,9 +11,10 @@ import style from './books-table.module.css';
 
 type BooksTableProps = {
   books: BookWithData[];
+  percentageByDocument: Record<string, { percentage: number; updatedAt: number }>;
 };
 
-export function BooksTable({ books }: BooksTableProps): JSX.Element {
+export function BooksTable({ books, percentageByDocument }: BooksTableProps): JSX.Element {
   const media = useMediaQuery(`(max-width: 62em)`);
 
   return (
@@ -30,7 +31,17 @@ export function BooksTable({ books }: BooksTableProps): JSX.Element {
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {books.map((book) => (
+        {books.map((book) => {
+          const syncPercentage = percentageByDocument[book.md5]?.percentage;
+          const readPercentage =
+            syncPercentage !== undefined
+              ? Math.max(0, Math.min(syncPercentage * 100, 100))
+              : (book.unique_read_pages / book.total_pages) * 100;
+          const readPages =
+            syncPercentage !== undefined
+              ? Math.round(book.total_pages * syncPercentage)
+              : book.unique_read_pages;
+          return (
           <Table.Tr key={book.id}>
             <Table.Td>
               <Flex align="center" gap="sm">
@@ -75,11 +86,11 @@ export function BooksTable({ books }: BooksTableProps): JSX.Element {
               </Flex>
             </Table.Td>
             <Table.Td visibleFrom="md">
-              {book.unique_read_pages}
+              {readPages}
               <Progress
-                value={(book.unique_read_pages / book.total_pages) * 100}
+                value={readPercentage}
                 aria-label="阅读进度百分比"
-                aria-valuetext={String((book.unique_read_pages / book.total_pages) * 100)}
+                aria-valuetext={String(readPercentage)}
               />
             </Table.Td>
             <Table.Td visibleFrom="md">{book.total_pages}</Table.Td>
@@ -88,7 +99,8 @@ export function BooksTable({ books }: BooksTableProps): JSX.Element {
             </Table.Td>
             <Table.Td visibleFrom="md">{formatRelativeDate(book.last_open * 1000)}</Table.Td>
           </Table.Tr>
-        ))}
+          );
+        })}
       </Table.Tbody>
     </Table>
   );

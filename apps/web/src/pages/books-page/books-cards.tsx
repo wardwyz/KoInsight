@@ -18,9 +18,10 @@ import style from './books-cards.module.css';
 
 type BooksCardsProps = {
   books: BookWithData[];
+  percentageByDocument: Record<string, { percentage: number; updatedAt: number }>;
 };
 
-export function BooksCards({ books }: BooksCardsProps): JSX.Element {
+export function BooksCards({ books, percentageByDocument }: BooksCardsProps): JSX.Element {
   const navigate = useNavigate();
   const isSmallScreen = useMediaQuery(`(max-width: 62em)`);
 
@@ -31,7 +32,17 @@ export function BooksCards({ books }: BooksCardsProps): JSX.Element {
       className={style.CardGrid}
       style={{ gridTemplateColumns: `repeat(auto-fill, minmax(${cardWidth}px, 1fr))` }}
     >
-      {books.map((book) => (
+      {books.map((book) => {
+        const syncPercentage = percentageByDocument[book.md5]?.percentage;
+        const readPercentage =
+          syncPercentage !== undefined
+            ? Math.max(0, Math.min(syncPercentage * 100, 100))
+            : (book.unique_read_pages / book.total_pages) * 100;
+        const readPages =
+          syncPercentage !== undefined
+            ? Math.round(book.total_pages * syncPercentage)
+            : book.unique_read_pages;
+        return (
         <Box
           key={book.id}
           className={style.Card}
@@ -54,7 +65,7 @@ export function BooksCards({ books }: BooksCardsProps): JSX.Element {
           <Progress
             radius={0}
             h={5}
-            value={(book.unique_read_pages / book.total_pages) * 100}
+            value={readPercentage}
             color="koinsight"
           />
           <Box px="lg" className={C(style.CardDetails, { [style.Small]: isSmallScreen })}>
@@ -92,7 +103,7 @@ export function BooksCards({ books }: BooksCardsProps): JSX.Element {
                     <IconProgress stroke={1.5} size={16} />
                   </Tooltip>
                   <span className={style.Attribute}>
-                    {book.unique_read_pages}
+                    {readPages}
                     &nbsp;/&nbsp;
                     {book.total_pages} 页
                   </span>
@@ -101,7 +112,8 @@ export function BooksCards({ books }: BooksCardsProps): JSX.Element {
             )}
           </Box>
         </Box>
-      ))}
+        );
+      })}
     </div>
   );
 }
